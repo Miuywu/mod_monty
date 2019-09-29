@@ -18,33 +18,21 @@ void fopen_err(char *var)
  * @Ln: int
  */
 
-void arg_check(char *arg0, char *arg1, unsigned int Ln)
+void arg_check(char *arg1, unsigned int Ln)
 {
 	int a;
 
-	(void) arg0;
 	if (arg1 == NULL)
 	{
+		printf("arg1 is NULL\n");
 		/*free(arg0);*/
 		push_err(Ln);
 	}
+	printf("arg1 = %s\n", arg1);
 	for (a = 0; arg1[a] != '\0'; a++)
 	{
-		if (a == 0 && arg1[a] == '-')
-		{
-			if (arg1[a + 1] == '\0')
-			{
-				/*free(arg0);
-				  free(arg1);*/
-				push_err(Ln);
-			}
-		}
-		else if (arg1[a] < 48 || arg1[a] > 57)
-                {
-			/*free(arg0);
-			  free(arg1);*/
+		if (arg1[a] == '!')
 			push_err(Ln);
-		}
 	}
 }
 /**

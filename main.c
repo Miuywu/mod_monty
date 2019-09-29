@@ -17,6 +17,7 @@ int main(int ac, char **av)
 	}
 	file = file_to_ptr(av[1]);
 	run(file);
+	fclose(file);
 	return (EXIT_SUCCESS);
 }
 /**
@@ -43,15 +44,19 @@ void run(FILE *fp)
 {
 	size_t len = 0;
 	unsigned int line_number;
-	char *buffer, *copy;
+	char *buffer = NULL;
 	stack_t *stack = NULL, **stack2ptr = &stack;
+	int GL;
 
-	for (line_number = 1; getline(&buffer, &len, fp) != -1; line_number++)
+	GL = getline(&buffer, &len, fp);
+	for (line_number = 1; GL != -1; line_number++)
 	{
 		printf("LINE #%d: ", line_number);
-		copy = strdup(buffer);
-		find_and_run(copy, line_number, stack2ptr);
+		find_and_run(buffer, line_number, stack2ptr);
+		GL = getline(&buffer, &len, fp);
 	}
+	if (buffer)
+		free(buffer);
 }
 
 /**
@@ -62,7 +67,7 @@ void run(FILE *fp)
  * Return: void
  */
 
-void find_and_run(char *copy, size_t line_number, stack_t **stack2)
+void find_and_run(char *copy, unsigned int line_number, stack_t **stack2)
 {
 	instruction_t funcs[] = {
 		{"push", push},
@@ -79,29 +84,27 @@ void find_and_run(char *copy, size_t line_number, stack_t **stack2)
 	char *arg0, *arg1;
 	int a;
 
-	arg0 = strtok(copy, " \0\n");
-	if (_strcmp("push", arg0) == 0)
+	arg0 = strtok(copy, " \n\0");
+	printf("arg0 = %s\n", arg0);
+	if (_strcmp(funcs[0].opcode, arg0) == 0)
 	{
-		arg1 = strtok(NULL, " \0\n");
-		/*arg_check(arg0, arg1, line_number);*/
+		arg1 = strtok(NULL, " \n\0");
+		arg_check(arg1, line_number);
 		global_n = atoi(arg1);
-		push(stack2, line_number);
-		printf("push\n");
+		(funcs[0].f)(stack2, line_number);
+		return;
 	}
-	else
+	for (a = 1; funcs[a].opcode; a++)
+		if (_strcmp(copy, funcs[a].opcode) == 0)
+		{
+			(funcs[a].f)(stack2, line_number);
+			break;
+		}
+	if (funcs[a].opcode == NULL)
 	{
-		for (a = 1; funcs[1].opcode; a++)
-			if (_strcmp(arg0, "pall") == 0)
-			{
-				printf("%s\n", funcs[a].opcode);
-				pall(stack2, line_number);
-				break;
-			}
-		if (funcs[a].opcode == NULL)
-			printf("command not found");
-		printf("%s success\n", funcs[a].opcode);
-		/*free(arg0);*/
+		printf("command not found\n");
 	}
+	printf("**%s success**\n", funcs[a].opcode);
 }
 /**
  * _strcmp - takes in 2 strings and compares

@@ -61,13 +61,13 @@ void mult(stack_t **head, unsigned int line_number);
 void fopen_err(char *var);
 void op_err(int num, char *var);
 void malloc_err(void);
-void arg_check(char *arg0, char *arg1, unsigned int Ln);
+void arg_check(char *arg1, unsigned int Ln);
 void push_err(unsigned int Ln);
 
 void input_checker(int ac);
 FILE *file_to_ptr(char *filename);
 void run(FILE *fp);
-void find_and_run(char *copy, size_t line_number, stack_t **stack2ptr);
+void find_and_run(char *copy, unsigned int line_number, stack_t **stack2ptr);
 
 int _strcmp(char *s1, char *s2);
 
