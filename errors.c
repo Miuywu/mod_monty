@@ -14,7 +14,7 @@ void fopen_err(char *var)
 }
 /**
  * arg_check - checks for invalid arguments for push
- * @arg: name of file
+ * @arg1: name of file
  * @Ln: int
  */
 
@@ -44,7 +44,7 @@ void push_err(unsigned int Ln)
 }
 
 /**
- * free_dlistint - free any malloc'd space
+ * free_list - free any malloc'd space
  *
  * @head: starting node
  *
@@ -66,13 +66,13 @@ void free_list(stack_t *head)
  * space_newline_finder - checks for whitespace in buffer
  *
  * @buffer: checking character
- * return - 1/0 for success/fail
+ * Return: 1/0 for success/fail
  */
 
 int space_newline_finder(char buffer)
 {
-        if (buffer == ' ')
-                return (1);
-        else
-                return (0);
+	if (buffer == ' ')
+		return (1);
+	else
+		return (0);
 }
