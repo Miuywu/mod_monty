@@ -33,6 +33,8 @@ typedef struct stack_s
 	struct stack_s *next;
 } stack_t;
 
+stack_t *global_head;
+
 /**
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
@@ -70,5 +72,7 @@ void run(FILE *fp);
 void find_and_run(char *copy, unsigned int line_number, stack_t **stack2ptr);
 
 int _strcmp(char *s1, char *s2);
+void free_list(stack_t *head);
+int space_newline_finder(char buffer);
 
 #endif

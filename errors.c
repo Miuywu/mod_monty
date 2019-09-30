@@ -24,11 +24,8 @@ void arg_check(char *arg1, unsigned int Ln)
 
 	if (arg1 == NULL)
 	{
-		printf("arg1 is NULL\n");
-		/*free(arg0);*/
 		push_err(Ln);
 	}
-	printf("arg1 = %s\n", arg1);
 	for (a = 0; arg1[a] != '\0'; a++)
 	{
 		if (arg1[a] == '!')
@@ -44,4 +41,38 @@ void push_err(unsigned int Ln)
 {
 	dprintf(STDERR_FILENO, "L%d: usage: push integer\n", Ln);
 	exit(EXIT_FAILURE);
+}
+
+/**
+ * free_dlistint - free any malloc'd space
+ *
+ * @head: starting node
+ *
+ */
+
+void free_list(stack_t *head)
+{
+	stack_t *temporary;
+
+	while (head != NULL)
+	{
+		temporary = head;
+		head = head->next;
+		free(temporary);
+	}
+}
+
+/**
+ * space_newline_finder - checks for whitespace in buffer
+ *
+ * @buffer: checking character
+ * return - 1/0 for success/fail
+ */
+
+int space_newline_finder(char buffer)
+{
+        if (buffer == ' ')
+                return (1);
+        else
+                return (0);
 }

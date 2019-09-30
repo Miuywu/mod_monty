@@ -13,6 +13,7 @@ void push(stack_t **head, unsigned int line_number)
 
 	(void)line_number;
 	new = malloc(sizeof(stack_t));
+	global_head = new;
 	if (!new)
 	{
 		dprintf(STDERR_FILENO, "Error: malloc error\n");

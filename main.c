@@ -18,6 +18,7 @@ int main(int ac, char **av)
 	file = file_to_ptr(av[1]);
 	run(file);
 	fclose(file);
+	free_list(global_head);
 	return (EXIT_SUCCESS);
 }
 /**
@@ -46,14 +47,21 @@ void run(FILE *fp)
 	unsigned int line_number;
 	char *buffer = NULL;
 	stack_t *stack = NULL, **stack2ptr = &stack;
-	int GL;
+	int counter = 0, i;
 
-	GL = getline(&buffer, &len, fp);
-	for (line_number = 1; GL != -1; line_number++)
+	for (line_number = 1; getline(&buffer, &len, fp) != -1; line_number++)
 	{
-		printf("LINE #%d: ", line_number);
+		if (strlen(buffer) == 1)
+			continue;
+		while (space_newline_finder(*buffer) && *buffer != '\n')
+		{	buffer++;
+			counter++;
+		}
+		if (*buffer == '\n')
+			continue;
+		for (i = 0; i < counter; i++)
+			buffer--;
 		find_and_run(buffer, line_number, stack2ptr);
-		GL = getline(&buffer, &len, fp);
 	}
 	if (buffer)
 		free(buffer);
@@ -85,7 +93,6 @@ void find_and_run(char *copy, unsigned int line_number, stack_t **stack2)
 	int a;
 
 	arg0 = strtok(copy, " \n\0");
-	printf("arg0 = %s\n", arg0);
 	if (_strcmp(funcs[0].opcode, arg0) == 0)
 	{
 		arg1 = strtok(NULL, " \n\0");
@@ -95,7 +102,7 @@ void find_and_run(char *copy, unsigned int line_number, stack_t **stack2)
 		return;
 	}
 	for (a = 1; funcs[a].opcode; a++)
-		if (_strcmp(copy, funcs[a].opcode) == 0)
+		if (_strcmp(arg0, funcs[a].opcode) == 0)
 		{
 			(funcs[a].f)(stack2, line_number);
 			break;
@@ -104,7 +111,6 @@ void find_and_run(char *copy, unsigned int line_number, stack_t **stack2)
 	{
 		printf("command not found\n");
 	}
-	printf("**%s success**\n", funcs[a].opcode);
 }
 /**
  * _strcmp - takes in 2 strings and compares
