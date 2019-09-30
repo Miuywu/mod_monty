@@ -87,6 +87,7 @@ void find_and_run(char *copy, unsigned int line_number, stack_t **stack2)
 		{"sub", sub},
 		{"div", divi},
 		{"mul", mult},
+		{"mod", mod},
 		{NULL, NULL}
 	};
 	char *arg0, *arg1;

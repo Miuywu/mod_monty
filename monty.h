@@ -59,6 +59,7 @@ void add(stack_t **head, unsigned int line_number);
 void sub(stack_t **head, unsigned int line_number);
 void divi(stack_t **head, unsigned int line_number);
 void mult(stack_t **head, unsigned int line_number);
+void mod(stack_t **head, unsigned int line_number);
 
 void fopen_err(char *var);
 void op_err(int num, char *var);
