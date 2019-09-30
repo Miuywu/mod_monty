@@ -127,6 +127,7 @@ void find_and_run(char *copy, unsigned int line_number, stack_t **stack2)
 int _strcmp(char *s1, char *s2)
 {
 	int a, b, c, d, e;
+
 	for (a = 0; s1[a]; a++)
 		;
 	for (b = 0; s2[b]; b++)
@@ -149,8 +150,8 @@ int _strcmp(char *s1, char *s2)
 			if (s2[d] != '\n' && s2[d] != '\0' && s2[d] != ' ')
 				return (5);
 		if (e == 2)
-                        if (s1[d] != '\n' && s1[d] != '\0' && s1[d] != ' ')
-                                return (5);
+			if (s1[d] != '\n' && s1[d] != '\0' && s1[d] != ' ')
+				return (5);
 	}
 	return (0);
 }
