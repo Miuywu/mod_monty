@@ -28,7 +28,14 @@ void arg_check(char *arg1, unsigned int Ln)
 	}
 	for (a = 0; arg1[a] != '\0'; a++)
 	{
-		if (arg1[a] == '!')
+		if (arg1[a] == '-')
+		{
+			if (arg1[a + 1] == '\n' || arg1[a + 1] == '\0')
+				push_err(Ln);
+			if (!(arg1[a + 1] <= '9' && arg1[a + 1] >= '0'))
+				push_err(Ln);
+		}
+		if (!(arg1[a] <= '9' && arg1[a] >= '0'))
 			push_err(Ln);
 	}
 }
