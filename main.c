@@ -112,6 +112,7 @@ void find_and_run(char *copy, unsigned int line_number, stack_t **stack2)
 	if (funcs[a].opcode == NULL)
 	{
 		dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n", line_number, arg0);
+		exit(EXIT_FAILURE);
 	}
 }
 /**
@@ -125,35 +126,31 @@ void find_and_run(char *copy, unsigned int line_number, stack_t **stack2)
 
 int _strcmp(char *s1, char *s2)
 {
-	int s2Len = 0;
-	int s1Len = 0;
-	int shorter = 0;
-	int index = 0;
-
-	while (*s1 != 0)
+	int a, b, c, d, e;
+	for (a = 0; s1[a]; a++)
+		;
+	for (b = 0; s2[b]; b++)
+		;
+	c = b;
+	if (a >= b)
+		c = a;
+	for (d = 0; s1[d] && s2[d]; d++, c--)
 	{
-		s1++;
-		s1Len++;
+		if (s1[d] != s2[d])
+			return (s1[d] - s2[d]);
+		if (!s1[d + 1])
+			e = 1;
+		if (!s2[d + 1])
+			e = 2;
 	}
-	s1 -= s1Len;
-	s1Len--;
-	while (*s2 != 0)
+	if (c > 0)
 	{
-		s2++;
-		s2Len++;
-	}
-	s2 -= s2Len;
-	s2Len--;
-	if (s2Len >= s1Len)
-		shorter = s1Len;
-	else
-		shorter = s2Len;
-
-	while (index <= shorter)
-	{
-		if (*(s1 + index) != *(s2 + index))
-			return (*(s1 + index) - *(s2 + index));
-		index++;
+		if (e == 1)
+			if (s2[d] != '\n' && s2[d] != '\0' && s2[d] != ' ')
+				return (5);
+		if (e == 2)
+                        if (s1[d] != '\n' && s1[d] != '\0' && s1[d] != ' ')
+                                return (5);
 	}
 	return (0);
 }
