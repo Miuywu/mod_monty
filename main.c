@@ -18,7 +18,8 @@ int main(int ac, char **av)
 	file = file_to_ptr(av[1]);
 	run(file);
 	fclose(file);
-	free_list(global_head);
+	if (global_head)
+		free_list(global_head);
 	return (EXIT_SUCCESS);
 }
 /**

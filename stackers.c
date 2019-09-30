@@ -67,11 +67,11 @@ void pop(stack_t **h, unsigned int line_number)
 	else
 	{
 		deleting = *h;
-
 		*h = (*h)->next;
+		global_head = *h;
+		free(deleting);
 		if (*h != NULL)
 			(*h)->prev = NULL;
-		free(deleting);
 	}
 
 }
