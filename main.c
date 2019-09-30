@@ -111,7 +111,7 @@ void find_and_run(char *copy, unsigned int line_number, stack_t **stack2)
 		}
 	if (funcs[a].opcode == NULL)
 	{
-		printf("command not found\n");
+		dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n", line_number, arg0);
 	}
 }
 /**
